@@ -12,6 +12,7 @@ describe("TaskCard", () => {
         category="UI"
         assignee="Frontend"
         priority="Hög"
+        onDelete={() => {}}
       />,
     );
     expect(screen.getByText("Fixa felhantering")).toBeInTheDocument();

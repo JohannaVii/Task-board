@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Column from "./components/Column";
@@ -7,107 +7,60 @@ import NewTaskForm from "./components/NewTaskForm";
 import type { Task } from "./types/Task";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      title: "Fixa felhantering",
-      description: "Visa felmeddelanden om fälten är tomma.",
-      category: "UI",
-      assignee: "Frontend-utvecklare",
-      priority: "Hög",
-      status: "todo",
-    },
-    {
-      id: 2,
-      title: "Skriva tester",
-      description:
-        "Sätt upp tester för att säkerställa att komponenterna fungerar.",
-      category: "Testning",
-      assignee: "Test-ansvarig",
-      priority: "Medel",
-      status: "todo",
-    },
-    {
-      id: 3,
-      title: "Felsöka testerna",
-      description: "Se till att alla testerna passerar utan felmeddelanden.",
-      category: "Testning",
-      assignee: "Test-ansvarig",
-      priority: "Medel",
-      status: "todo",
-    },
-    {
-      id: 4,
-      title: "Koppla API",
-      description: "Felsöka varför endpointen ger 404.",
-      category: "Integration",
-      assignee: "Backend-utvecklare",
-      priority: "Hög",
-      status: "doing",
-    },
-    {
-      id: 5,
-      title: "Styla knappar",
-      description: "Fixa hover-effekter.",
-      category: "UI",
-      assignee: "Frontend-utvecklare",
-      priority: "Medel",
-      status: "doing",
-    },
-    {
-      id: 6,
-      title: "Bygga menyn",
-      description: "Koppla ihop sidorna så länkarna funkar.",
-      category: "Layout",
-      assignee: "Frontend-utvecklare",
-      priority: "Låg",
-      status: "doing",
-    },
-    {
-      id: 7,
-      title: "Skapa startsidan",
-      description: "Sätta upp den grundläggande layouten.",
-      category: "Design",
-      assignee: "UX-designer",
-      priority: "Hög",
-      status: "done",
-    },
-    {
-      id: 8,
-      title: "Starta projektet",
-      description: "Skapa projektmappen och få igång servern lokalt.",
-      category: "Setup",
-      assignee: "System-admin",
-      priority: "Hög",
-      status: "done",
-    },
-    {
-      id: 9,
-      title: "Git repository",
-      description: "Skapa ett Git-repository och lägga till alla i teamet.",
-      category: "Git",
-      assignee: "System-admin",
-      priority: "Låg",
-      status: "done",
-    },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddTask = (newTaskData: Omit<Task, "id" | "status">) => {
+  useEffect(() => {
+    fetch("http://localhost:3001/api/tasks")
+      .then((res) => res.json())
+      .then((data) => setTasks(data))
+      .catch((err) => console.error("ERROR - Fel vid hämtning", err));
+  }, []);
+
+  const handleAddTask = async (newTaskData: Omit<Task, "id" | "status">) => {
     const newTask: Task = {
       id: Date.now(),
       ...newTaskData,
       status: "todo",
     };
-    setTasks([newTask, ...tasks]);
+
+    try {
+      const response = await fetch("http://localhost:3001/api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (response.ok) {
+        const savedTask = await response.json();
+        setTasks([savedTask, ...tasks]);
+      }
+    } catch (err) {
+      console.error("ERROR - Gick inte att spara", err);
+    }
   };
 
   const handleDeleteTask = (id: number) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const todoTasks = tasks.filter((task) => task.status === "todo");
-  const doingTasks = tasks.filter((task) => task.status === "doing");
-  const doneTasks = tasks.filter((task) => task.status === "done");
+  const filteredTasks = tasks.filter((task) => {
+    const term = searchTerm.toLowerCase();
+
+    return (
+      task.title.toLowerCase().includes(term) ||
+      task.description.toLowerCase().includes(term) ||
+      task.category.toLowerCase().includes(term) ||
+      task.assignee.toLowerCase().includes(term) ||
+      task.priority.toLowerCase().includes(term)
+    );
+  });
+
+  const todoTasks = filteredTasks.filter((task) => task.status === "todo");
+  const doingTasks = filteredTasks.filter((task) => task.status === "doing");
+  const doneTasks = filteredTasks.filter((task) => task.status === "done");
 
   return (
     <div className="max-w-6xl mx-auto min-h-screen flex flex-col bg-gray-50 text-gray-800 shadow-md border-x border-gray-200">
@@ -122,6 +75,16 @@ function App() {
 
       <div className="p-6 pt-6 pb-0">
         <NewTaskForm onAddTask={handleAddTask} />
+      </div>
+
+      <div className="px-6 pt-0 mb-5">
+        <input
+          type="text"
+          placeholder="Sök här..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0b192c]"
+        />
       </div>
 
       <main className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 pt-0 flex-1">
