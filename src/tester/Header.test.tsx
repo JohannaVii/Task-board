@@ -7,6 +7,6 @@ describe("Header", () => {
   it("Visar titeln och undertiteln", () => {
     render(<Header />);
     expect(screen.getByText("Task board")).toBeInTheDocument();
-    expect(screen.getByText("Drift och statushantering")).toBeInTheDocument();
+    expect(screen.getByText("Drift och statushändelser")).toBeInTheDocument();
   });
 });
