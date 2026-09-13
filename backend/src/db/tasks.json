@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1789286243104,
+    "title": "Fixa felhantering",
+    "description": "Visa felmeddelanden om fälten är tomma",
+    "assignee": "Frontend-utvecklare",
+    "category": "UI",
+    "priority": "Hög",
+    "status": "todo"
+  },
+  {
+    "id": 1789286349206,
+    "title": "Skriva tester",
+    "description": "Sätt upp tester för att säkerställa att komponenterna fungerar",
+    "assignee": "Test-ansvarig",
+    "category": "Testning",
+    "priority": "Medel",
+    "status": "todo"
+  },
+  {
+    "id": 1789286392285,
+    "title": "Felsöka testerna",
+    "description": "Se till att alla testerna passerar utan felmeddelanden",
+    "assignee": "Test-ansvarig",
+    "category": "Testning",
+    "priority": "Medel",
+    "status": "todo"
+  }
+]
