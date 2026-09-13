@@ -25,5 +25,59 @@
     "category": "Testning",
     "priority": "Medel",
     "status": "todo"
+  },
+  {
+    "id": 1789303049006,
+    "title": "Koppla API",
+    "description": "Felsöka varför endpointen ger 404",
+    "assignee": "Backend-utvecklare",
+    "category": "Integration",
+    "priority": "Hög",
+    "status": "doing"
+  },
+  {
+    "id": 1789306230862,
+    "title": "Styla knappar",
+    "description": "Fixa hover-effekter",
+    "assignee": "Frontend-utvecklare",
+    "category": "UI",
+    "priority": "Medel",
+    "status": "doing"
+  },
+  {
+    "id": 1789306464437,
+    "title": "Bygga menyn",
+    "description": "Koppla ihop sidorna så länkarna funkar",
+    "assignee": "Frontend-utvecklare",
+    "category": "Layout",
+    "priority": "Låg",
+    "status": "doing"
+  },
+  {
+    "id": 1789306512101,
+    "title": "Skapa startsidan",
+    "description": "Sätta upp den grundläggande layouten",
+    "assignee": "UX-designer",
+    "category": "Design",
+    "priority": "Hög",
+    "status": "done"
+  },
+  {
+    "id": 1789306554063,
+    "title": "Starta projektet",
+    "description": "Skapa projektmappen och få igång servern lokalt",
+    "assignee": "Systemadmin",
+    "category": "Setup",
+    "priority": "Hög",
+    "status": "done"
+  },
+  {
+    "id": 1789306597638,
+    "title": "Git repository",
+    "description": "Skapa ett Git-repository och lägga till alla i teamet",
+    "assignee": "Systemadmin",
+    "category": "Git",
+    "priority": "Låg",
+    "status": "done"
   }
 ]

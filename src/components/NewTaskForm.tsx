@@ -7,6 +7,7 @@ type NewTaskFormProps = {
     assignee: string;
     category: string;
     priority: string;
+    status: string;
   }) => void;
 };
 
@@ -16,8 +17,9 @@ const NewTaskForm = ({ onAddTask }: NewTaskFormProps) => {
   const [assignee, setAssignee] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("Medel");
+  const [status, setStatus] = useState("todo");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     if (!title.trim()) return;
     onAddTask({
@@ -26,12 +28,8 @@ const NewTaskForm = ({ onAddTask }: NewTaskFormProps) => {
       assignee,
       category,
       priority,
+      status,
     });
-    setTitle("");
-    setDescription("");
-    setAssignee("");
-    setCategory("");
-    setPriority("Medel");
   };
 
   return (
@@ -82,6 +80,17 @@ const NewTaskForm = ({ onAddTask }: NewTaskFormProps) => {
           <option>Medel</option>
           <option>Hög</option>
         </select>
+
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="h-8 px-2 p-0.5 bg-[#f0f4f8] border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="todo">Todo</option>
+          <option value="doing">Doing</option>
+          <option value="done">Done</option>
+        </select>
+
         <button
           type="submit"
           className="bg-slate-800 text-white px-2 h-8 rounded-md font-medium hover:bg-slate-700 transition-colors cursor-pointer ml-auto text-xs"

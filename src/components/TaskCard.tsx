@@ -5,6 +5,7 @@ type TaskCardProps = {
   assignee: string;
   category: string;
   priority: string;
+  status: string;
   onDelete: (id: number) => void;
 };
 
@@ -15,6 +16,7 @@ export default function TaskCard({
   assignee,
   category,
   priority,
+  status,
   onDelete,
 }: TaskCardProps) {
   return (

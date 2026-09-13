@@ -18,4 +18,13 @@ router.post("/", (request, response) => {
   response.status(201).json(newTask);
 });
 
+router.delete("/:id", (request, response) => {
+  const tasks = getTasks();
+  const taskId = Number(request.params.id);
+  const updatedTasks = tasks.filter((task) => task.id !== taskId);
+
+  saveTasks(updatedTasks);
+  response.status(200).json({ message: "Task deleted!" });
+});
+
 export default router;
