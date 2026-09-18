@@ -12,6 +12,7 @@ describe("TaskCard", () => {
         category="UI"
         assignee="Frontend"
         priority="Hög"
+        status="todo"
         onDelete={() => {}}
       />,
     );
